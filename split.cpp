@@ -11,13 +11,39 @@ the function below should be the only one in this file.
 */
 
 #include "split.h"
+#include <cstddef>
 
-/* Add a prototype for a helper function here if you need */
+// prototype for a helper function
+bool isEven(const Node* input);
 
 void split(Node*& in, Node*& odds, Node*& evens)
 {
-  /* Add code here */
-// WRITE YOUR CODE HERE
+  // check if original list is empty (base case)
+  if(in == nullptr){
+    return;
+  }
+
+  // check if value of temp is even and split accordingly (recursive case)
+  Node* temp = in;
+  in = in->next;
+  temp->next = nullptr;
+  if(isEven(temp)){
+    // add temp to the front of evens
+    temp->next = evens;
+    evens = temp;
+  }
+  else{
+    // add temp to front of odds
+    temp->next = odds;
+    odds = temp;
+  }
+  split(in, odds, evens);
 }
 
-/* If you needed a helper function, write it here */
+// helper function to check if the value is even
+bool isEven(const Node* input) {
+  if((input->value % 2) == 0){
+    return true;
+  }
+  return false;
+}
